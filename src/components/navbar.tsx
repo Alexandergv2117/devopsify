@@ -1,11 +1,10 @@
 "use client";
 
+import Link from "next/link";
 import {
   Navbar,
   NavbarBrand,
   NavbarContent,
-  NavbarItem,
-  Link,
   DropdownItem,
   DropdownTrigger,
   Dropdown,
@@ -17,16 +16,16 @@ export default function App() {
   return (
     <Navbar maxWidth="full" className="bg-white bg-opacity-10 backdrop-blur-md rounded-b-md w-full">
       <NavbarBrand>
-        <p className="font-bold text-xl">DevOpsify</p>
+        <Link href="/" className="font-bold text-xl">DevOpsify</Link>
       </NavbarBrand>
 
-      <NavbarContent className="hidden sm:flex gap-4" justify="center">
+      {/* <NavbarContent className="hidden sm:flex gap-4" justify="center">
         <NavbarItem isActive>
           <Link href="#" aria-current="page" color="secondary">
           Projects
           </Link>
         </NavbarItem>
-      </NavbarContent>
+      </NavbarContent> */}
 
       <NavbarContent as="div" justify="end">
         <Dropdown placement="bottom-end">
@@ -36,15 +35,15 @@ export default function App() {
               as="button"
               className="transition-transform"
               color="secondary"
-              name="Jason Hughes"
+              name="Alexander Garcia"
               size="sm"
-              src="https://i.pravatar.cc/150?u=a042581f4e29026704d"
+              src="https://avatars.githubusercontent.com/u/74172014?v=4"
             />
           </DropdownTrigger>
           <DropdownMenu aria-label="Profile Actions" variant="flat">
             <DropdownItem key="profile" className="h-14 gap-2">
               <p className="font-semibold">Signed in as</p>
-              <p className="font-semibold">zoey@example.com</p>
+              <p className="font-semibold">alexandergv2117@gmail.com</p>
             </DropdownItem>
             <DropdownItem key="settings">My Settings</DropdownItem>
             <DropdownItem key="team_settings">Team Settings</DropdownItem>

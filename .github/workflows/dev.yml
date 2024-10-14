@@ -1,0 +1,68 @@
+name: Deploy Auth Service to Staging, Docker swarm
+
+on:
+  push:
+    branches:
+      - dev
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:  
+  build_and_push_image:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+        
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+      
+      - name: Build image
+        run: |
+          SHORT_SHA=$(git rev-parse --short=7 HEAD)
+          docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/${{ github.event.repository.name }}:${SHORT_SHA} .
+
+      - name: Push image
+        run: |
+          SHORT_SHA=$(git rev-parse --short=7 HEAD)
+          docker push ${{ secrets.DOCKERHUB_USERNAME }}/${{ github.event.repository.name }}:${SHORT_SHA}
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: ["build_and_push_image"]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - name: Build template deployment
+        run: |
+          SHORT_SHA=$(git rev-parse --short=7 HEAD)
+          .deploy/build_deployment.sh stack="devopsify" environment="prod" svc="app" deployment_dir=".deploy" image="${{ secrets.DOCKERHUB_USERNAME }}/${{ github.event.repository.name }}:${SHORT_SHA}" host="${{ vars.HOST_NAME }}" tls="${{ vars.TLS }}" > /tmp/devopsify.deployment.yml
+          
+      - name: Set up SSH key
+        uses: webfactory/ssh-agent@v0.5.3
+        with:
+          ssh-private-key: ${{ secrets.HOST_SSH_PRIVATE_KEY }}
+
+      - name: Copy deployment file to server
+        run: scp -o StrictHostKeyChecking=no -P ${{ secrets.HOST_SSH_PORT}} /tmp/devopsify.deployment.yml ${{ secrets.HOST_SSH_USER }}@${{ secrets.HOST_SSH_NAME }}:/tmp/devopsify.deployment.yml
+
+      - name: Deploy to Docker swarm
+        run: ssh -o StrictHostKeyChecking=no -p ${{ secrets.HOST_SSH_PORT }} ${{ secrets.HOST_SSH_USER }}@${{ secrets.HOST_SSH_NAME }} "docker stack deploy -c /tmp/devopsify.deployment.yml devopsify"
+
+      # - name: Clean up deployment file on server
+      #   if: always()
+      #   run: ssh -o StrictHostKeyChecking=no -p ${{ secrets.HOST_SSH_PORT }} ${{ secrets.HOST_SSH_USER }}@${{ secrets.HOST_SSH_NAME }} "rm -f /tmp/devopsify.deployment.yml"
+
+      - name: Delete deployment file locally
+        if: always()
+        run: rm -f /tmp/devopsify.deployment.yml

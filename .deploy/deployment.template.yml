@@ -1,0 +1,20 @@
+version: "3.7"
+
+services:
+  app-ENVIRONMENT_PLACEHOLDER:
+    image: IMAGE_PLACEHOLDER
+    environment:
+      - PORT=3000
+    networks:
+      - caddy
+    deploy:
+      replicas: 1
+      labels:
+        caddy: HOST_PLACEHOLDER
+        caddy.tls: "TLS_PLACEHOLDER"
+        caddy.tls.on_demand:
+        caddy.reverse_proxy: "{{upstreams 3000}}"
+
+networks:
+  caddy:
+    external: true
