@@ -1,7 +1,7 @@
 version: "3.7"
 
 services:
-  app-ENVIRONMENT_PLACEHOLDER:
+  STACK_PLACEHOLDER-app:
     image: IMAGE_PLACEHOLDER
     environment:
       - PORT=3000
