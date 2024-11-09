@@ -1,6 +1,6 @@
 #!/bin/bash
 
-stack="app"
+stack=""
 deployment_dir=""
 image=""
 host=""
@@ -65,6 +65,11 @@ if [ -z "$environment" ]; then
   exit 1
 fi
 
+if [ -z "$stack" ]; then
+  echo "stack is required"
+  exit 1
+fi
+
 # Deploy the stack
 
 yaml_content=$(cat "$deployment_dir/deployment.template.yml")
@@ -89,9 +94,11 @@ for var in $(env | grep '^DEPLOY_'); do
   IFS='=' read -r key value <<< "$var"
   cleaned_key="${key#DEPLOY_}"
 
-  yaml_content=$(echo "$yaml_content" | yq eval ".services.$stack-ENVIRONMENT_PLACEHOLDER.environment += [\"$cleaned_key=$value\"]")
+  yaml_content=$(echo "$yaml_content" | yq eval ".services.STACK_PLACEHOLDER-app.environment += [\"$cleaned_key=$value\"]")
 done
 
+# Replace placeholders
+yaml_content=$(echo "$yaml_content" | sed "s|STACK_PLACEHOLDER|$stack-$environment|g")
 yaml_content=$(echo "$yaml_content" | sed "s|ENVIRONMENT_PLACEHOLDER|$environment|g")
 yaml_content=$(echo "$yaml_content" | sed "s|IMAGE_PLACEHOLDER|$image|g")
 yaml_content=$(echo "$yaml_content" | sed "s|HOST_PLACEHOLDER|$host|g")
