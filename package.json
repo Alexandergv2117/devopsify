@@ -10,12 +10,14 @@
   },
   "dependencies": {
     "@nextui-org/react": "^2.4.8",
+    "dockerode": "4.0.2",
     "framer-motion": "^11.11.0",
     "next": "14.2.14",
     "react": "^18",
     "react-dom": "^18"
   },
   "devDependencies": {
+    "@types/dockerode": "^3.3.31",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
