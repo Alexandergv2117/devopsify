@@ -16,6 +16,7 @@ services:
         caddy.reverse_proxy: "{{upstreams 3000}}"
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
+    user: "1001:1001"
 
 networks:
   caddy:

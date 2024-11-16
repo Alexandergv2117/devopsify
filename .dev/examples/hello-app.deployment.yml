@@ -1,0 +1,14 @@
+version: "3.7"
+
+services:
+  app:
+    image: alex2117k/hello-app:latest
+    environment:
+      - PORT=3000
+    deploy:
+      replicas: 1
+      labels:
+        caddy: hello-app.acme.com
+        caddy.tls: "internal"
+        caddy.tls.on_demand:
+        caddy.reverse_proxy: "{{upstreams 3000}}"
