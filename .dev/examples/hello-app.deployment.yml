@@ -6,7 +6,7 @@ services:
     environment:
       - PORT=3000
     deploy:
-      replicas: 1
+      replicas: 10
       labels:
         caddy: hello-app.acme.com
         caddy.tls: "internal"
