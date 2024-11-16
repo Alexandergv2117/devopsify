@@ -6,11 +6,23 @@ export interface Stack {
   services: Service[];
 }
 
-export default async function listStacks(): Promise<Stack[] | undefined> {
+interface ListStacksOptions {
+  filters?: {
+    search?: string;
+  };
+}
+
+export default async function listStacks({
+  filters,
+}: ListStacksOptions): Promise<Stack[] | undefined> {
   const stacks: Stack[] = [];
 
   try {
-    const services = await docker.listServices();
+    const services = await docker.listServices({
+      filters: {
+        name: [filters?.search || ""],
+      },
+    });
 
     services.forEach((service) => {
       const stack = service.Spec?.Labels?.["com.docker.stack.namespace"];

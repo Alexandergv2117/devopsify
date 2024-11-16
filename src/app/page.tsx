@@ -8,11 +8,16 @@ interface HomeProps {
   searchParams: {
     containers?: string;
     containersstatus?: string;
+    stacks?: string;
   }
 }
 
 export default async function Home({ searchParams }: HomeProps) {
-  const stacks = await listStacks();
+  const stacks = await listStacks({
+    filters: {
+      search: searchParams.stacks,
+    },
+  });
   const containers = await listContainers({
     filters: {
       search: searchParams.containers,

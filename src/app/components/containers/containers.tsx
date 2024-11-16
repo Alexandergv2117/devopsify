@@ -51,11 +51,11 @@ export default function Containers({ containers }: ContainersProps) {
         Containers ({containers.length})
       </h1>
       <ContainerFilters />
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 w-full gap-4 py-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 xl:grid-cols-3 w-full gap-4 py-4">
         {containers.map((container) => (
           <article
             key={container.Id}
-            className="relative flex h-auto flex-col overflow-hidden rounded-lg p-4 shadow-xl transition duration-400 hover:shadow-2xl hover:bg-[#1c1c1c] border border-slate-100/10 gap-4"
+            className="relative flex h-auto flex-col overflow-hidden rounded-lg p-4 shadow-xl transition duration-400 hover:shadow-2xl hover:bg-[#1c1c1c] border border-slate-100/20 gap-4"
           >
             {formatName(container.Names[0])}
             <div className="flex flex-col gap-1">

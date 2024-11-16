@@ -33,7 +33,7 @@ export default function RootLayout({
       >
         <Providers>
           <Navbar />
-          <main className="min-h-[calc(100vh-100px)] mt-1 px-4 flex flex-col items-center">{children}</main>
+          <main className="min-h-[calc(100vh-100px)] mt-1 px-1 flex flex-col items-center">{children}</main>
         </Providers>
       </body>
     </html>
