@@ -1,6 +1,10 @@
 import RelativeDate from "@/components/ui/relative-date";
 import { Code } from "@nextui-org/react";
 import { ContainerInfo } from "dockerode";
+import ContainerFilters from "./filters";
+
+export const QUERY_NAME = "containers";
+export const QUERY_STATUS = "containersstatus";
 
 interface ContainersProps {
   containers: ContainerInfo[];
@@ -46,6 +50,7 @@ export default function Containers({ containers }: ContainersProps) {
       <h1 className="col-span-4 text-2xl font-semibold">
         Containers ({containers.length})
       </h1>
+      <ContainerFilters />
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 w-full gap-4 py-4">
         {containers.map((container) => (
           <article

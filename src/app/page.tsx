@@ -4,9 +4,22 @@ import { listContainers, listStacks } from "@/docker";
 import Containers from "./components/containers/containers";
 import Stacks from "./components/stacks/stacks";
 
-export default async function Home() {
-  const containers = await listContainers();
+interface HomeProps {
+  searchParams: {
+    containers?: string;
+    containersstatus?: string;
+  }
+}
+
+export default async function Home({ searchParams }: HomeProps) {
   const stacks = await listStacks();
+  const containers = await listContainers({
+    filters: {
+      search: searchParams.containers,
+      status: [searchParams.containersstatus || "running"],
+    },
+  });
+
   return (
     <div className="flex flex-col gap-10 mt-2 w-full">
       <Stacks stacks={stacks || []} />
