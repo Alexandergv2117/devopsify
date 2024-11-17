@@ -2,20 +2,26 @@
   "name": "devopsify",
   "version": "0.1.0",
   "private": true,
+  "type": "module",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "studio": "prisma studio",
+    "seed": "node prisma/seed.js"
   },
   "dependencies": {
     "@nextui-org/react": "^2.4.8",
+    "@prisma/client": "5.22.0",
     "date-fns": "4.1.0",
     "dockerode": "4.0.2",
     "framer-motion": "^11.11.0",
     "next": "14.2.14",
+    "next-auth": "4.24.10",
     "react": "^18",
     "react-dom": "^18",
+    "react-hook-form": "7.53.2",
     "use-debounce": "10.0.4"
   },
   "devDependencies": {
@@ -26,6 +32,7 @@
     "eslint": "^8",
     "eslint-config-next": "14.2.14",
     "postcss": "^8",
+    "prisma": "^5.22.0",
     "tailwindcss": "^3.4.1",
     "typescript": "^5"
   }

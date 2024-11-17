@@ -1,0 +1,26 @@
+version: '3.8'
+
+name: devopsify
+
+networks:
+  devopsify-network:
+    driver: bridge
+
+services:
+  postgres-db:
+    container_name: devopsify-postgres
+    image: postgres:16.2
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_DB: devopsify-db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+    networks:
+      - devopsify-network
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+
+volumes:
+  postgres-data:
+    driver: local
