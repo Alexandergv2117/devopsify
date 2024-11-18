@@ -16,26 +16,33 @@ export const authOptions: NextAuthOptions = {
 
         if (!email || !password) return null;
 
-        const user = await prisma.user.findUnique({
-          where: {
-            email,
-          },
-        });
-
-        console.log(user);
-
-        if (!user) return null;
-
-        const isValidPassword = await comparePassword(password, user.password);
-
-        if (!isValidPassword) return null;
-
-        return {
-          id: user.id,
-          email: user.email,
-          name: user.name,
+        try {
+          const user = await prisma.user.findUnique({
+            where: {
+              email,
+            },
+          });
+  
+          console.log(user);
+  
+          if (!user) return null;
+  
+          const isValidPassword = await comparePassword(password, user.password);
+  
+          console.log(isValidPassword);
+  
+          if (!isValidPassword) return null;
+  
+          return {
+            id: user.id,
+            email: user.email,
+            name: user.name,
+          }
+        } catch (error) {
+          console.error(error);
+          return null;
         }
-      },
+      }
     }),
   ],
   pages: {
