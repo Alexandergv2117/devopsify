@@ -23,13 +23,9 @@ export const authOptions: NextAuthOptions = {
             },
           });
   
-          console.log(user);
-  
           if (!user) return null;
   
           const isValidPassword = await comparePassword(password, user.password);
-  
-          console.log(isValidPassword);
   
           if (!isValidPassword) return null;
   
