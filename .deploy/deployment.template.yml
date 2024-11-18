@@ -10,7 +10,7 @@ services:
       - NEXTAUTH_SECRET=0ec4d956600492e5a0d138915644d100
     networks:
       - caddy
-      - STACK_PLACEHOLDER-network
+      - devopsify-network
     deploy:
       replicas: 1
       labels:
@@ -28,7 +28,7 @@ services:
         POSTGRES_USER: postgres
         POSTGRES_PASSWORD: password
       networks:
-        - STACK_PLACEHOLDER-network
+        - devopsify-network
       deploy:
         replicas: 1
       volumes:
@@ -37,7 +37,7 @@ services:
 networks:
   caddy:
     external: true
-  STACK_PLACEHOLDER-network:
+  devopsify-network:
     driver: overlay
 
 volumes:
