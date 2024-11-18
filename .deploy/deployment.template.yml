@@ -39,3 +39,6 @@ networks:
     external: true
   STACK_PLACEHOLDER-network:
     driver: overlay
+
+volumes:
+  postgres-data:
