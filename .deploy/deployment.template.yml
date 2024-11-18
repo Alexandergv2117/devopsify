@@ -21,18 +21,18 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
   
-    STACK_PLACEHOLDER-db:
-      image: postgres:16.2
-      environment:
-        POSTGRES_DB: devopsify-db
-        POSTGRES_USER: postgres
-        POSTGRES_PASSWORD: password
-      networks:
-        - devopSTACK_PLACEHOLDERsify-network
-      deploy:
-        replicas: 1
-      volumes:
-        - postgres-data:/var/lib/postgresql/data
+  STACK_PLACEHOLDER-db:
+    image: postgres:16.2
+    environment:
+      POSTGRES_DB: devopsify-db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+    networks:
+      - devopSTACK_PLACEHOLDERsify-network
+    deploy:
+      replicas: 1
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
 
 networks:
   caddy:
