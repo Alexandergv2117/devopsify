@@ -5,6 +5,7 @@ on:
   push:
     branches:
       - dev
+      - feat/auth
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}

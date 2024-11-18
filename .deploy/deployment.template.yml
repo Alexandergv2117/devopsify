@@ -5,8 +5,12 @@ services:
     image: IMAGE_PLACEHOLDER
     environment:
       - PORT=3000
+      - DATABASE_URL="postgresql://postgres:password@postgres-db:5432/mydb?schema=public"
+      - NEXTAUTH_URL=HOST_PLACEHOLDER
+      - NEXTAUTH_SECRET=0ec4d956600492e5a0d138915644d100
     networks:
       - caddy
+      - STACK_PLACEHOLDER-network
     deploy:
       replicas: 1
       labels:
@@ -16,7 +20,22 @@ services:
         caddy.reverse_proxy: "{{upstreams 3000}}"
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
+  
+    STACK_PLACEHOLDER-postgres-db:
+      image: postgres:16.2
+      ports:
+        - 5432:5432
+      environment:
+        POSTGRES_DB: devopsify-db
+        POSTGRES_USER: postgres
+        POSTGRES_PASSWORD: password
+      networks:
+        - devopsify-network
+      volumes:
+        - postgres-data:/var/lib/postgresql/data
 
 networks:
   caddy:
     external: true
+  STACK_PLACEHOLDER-network:
+    driver: overlay

@@ -1,5 +1,7 @@
 import CredentialsProvider from "next-auth/providers/credentials";
 import type { NextAuthOptions } from "next-auth";
+import { prisma } from "./prisma";
+import { comparePassword } from "./password";
 
 export const authOptions: NextAuthOptions = {
   providers: [
@@ -10,13 +12,27 @@ export const authOptions: NextAuthOptions = {
         password: { label: 'Password', type: 'password' },
       },
       async authorize(credentials) {
-        console.log("credentials", credentials);
-        if (credentials?.email === "admin@admin.com" && credentials?.password === "admin1234567890") {
-          console.log("credentials 2", credentials);
-          return { id: "1", name: "John Doe" };
-        }
+        const { email = '', password = '' } = credentials || {};
 
-        return null;
+        if (!email || !password) return null;
+
+        const user = await prisma.user.findUnique({
+          where: {
+            email,
+          },
+        });
+
+        if (!user) return null;
+
+        const isValidPassword = await comparePassword(password, user.password);
+
+        if (!isValidPassword) return null;
+
+        return {
+          id: user.id,
+          email: user.email,
+          name: user.name,
+        }
       },
     }),
   ],

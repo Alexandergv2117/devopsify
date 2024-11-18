@@ -16,14 +16,11 @@ export default function LoginPage() {
   } = useForm();
 
   const onSubmit = handleSubmit(async (data) => {
-    console.log(data);
     const res = await signIn("credentials", {
       email: data.user,
       password: data.password,
       redirect: false,
     });
-
-    console.log(res);
 
     if (res?.error) {
       setErrorMessage({
@@ -35,9 +32,9 @@ export default function LoginPage() {
   });
 
   return (
-    <div className="max-w-md w-full space-y-6 p-6 bg-background rounded-lg shadow-lg my-auto">
+    <div className="max-w-md w-full space-y-6 p-6 bg-background rounded-lg shadow-lg my-auto border border-slate-100/20">
       <div className="space-y-2 text-center">
-        <h1 className="text-3xl font-bold text-primary">Login</h1>
+        <h1 className="text-3xl font-bold text-primary">Sign in</h1>
       </div>
       <div>
         {errorMessage.message !== "invalid password" &&
@@ -50,16 +47,17 @@ export default function LoginPage() {
       <form onSubmit={onSubmit} className="space-y-4">
         <div className="space-y-2">
           <Input
-            type="text"
-            label="Enter your email or username"
+            type="email"
+            label="Enter your email"
+            required
             isInvalid={
               !!errors.email ||
-              errorMessage.message === "Email or username not found"
+              errorMessage.message === "Email not found"
             }
             errorMessage={
-              (errors.email && "Email or username is required") ||
+              (errors.email && "Email is required") ||
               (errorMessage.message === "email not found" &&
-                "Email or username not found")
+                "Email not found")
             }
             {...register("user", { required: true })}
           />
@@ -68,7 +66,7 @@ export default function LoginPage() {
           <Input
             type="password"
             label="Password"
-            minLength={8}
+            required
             isInvalid={
               !!errors.password || errorMessage.message === "invalid password"
             }

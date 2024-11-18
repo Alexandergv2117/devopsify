@@ -7,6 +7,23 @@ networks:
     driver: bridge
 
 services:
+  # app:
+    # container_name: devopsify-app
+    # image: devopsify:latest
+    # environment:
+    #   DATABASE_URL: "postgresql://postgres:password@postgres-db:5432/mydb?schema=public"
+    #   NEXTAUTH_URL: http://localhost:3000
+    #   NEXTAUTH_SECRET: 0ec4d956600492e5a0d138915644d100
+    # ports:
+    #   - 3000:3000
+    # networks:
+    #   - devopsify-network
+    # depends_on:
+    #   - postgres-db
+    # volumes:
+    #   - /var/run/docker.sock:/var/run/docker.sock
+    # privileged: true
+
   postgres-db:
     container_name: devopsify-postgres
     image: postgres:16.2

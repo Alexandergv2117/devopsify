@@ -16,7 +16,7 @@ async function main() {
     update: {},
     create: {
       email: "admin@devopsify.io",
-      password: "$2y$12$forQVGQ2jAEQk1E4HQCLfO2DOMhcGVH89/TUZYQzKc0Cp8yGiVs5i",
+      password: "$2b$10$R6OZIqpT.587EeN.iJK7r.KhMTISPTkKgQmUqYW/.Bg1mcuN4ubjm",
       name: "Admin",
       username: "admin",
       role: {
