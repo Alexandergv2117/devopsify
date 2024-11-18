@@ -5,12 +5,12 @@ services:
     image: IMAGE_PLACEHOLDER
     environment:
       - PORT=3000
-      - DATABASE_URL="postgresql://postgres:password@postgres-db:5432/mydb?schema=public"
+      - DATABASE_URL="postgresql://postgres:password@STACK_PLACEHOLDER-db:5432/mydb?schema=public"
       - NEXTAUTH_URL=HOST_PLACEHOLDER
       - NEXTAUTH_SECRET=0ec4d956600492e5a0d138915644d100
     networks:
       - caddy
-      - devopsify-network
+      - STACK_PLACEHOLDER-network
     deploy:
       replicas: 1
       labels:
@@ -21,14 +21,14 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
   
-    STACK_PLACEHOLDER-postgres-db:
+    STACK_PLACEHOLDER-db:
       image: postgres:16.2
       environment:
         POSTGRES_DB: devopsify-db
         POSTGRES_USER: postgres
         POSTGRES_PASSWORD: password
       networks:
-        - devopsify-network
+        - devopSTACK_PLACEHOLDERsify-network
       deploy:
         replicas: 1
       volumes:
@@ -37,7 +37,7 @@ services:
 networks:
   caddy:
     external: true
-  devopsify-network:
+  STACK_PLACEHOLDER-network:
     driver: overlay
 
 volumes:
