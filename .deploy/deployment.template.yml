@@ -28,7 +28,7 @@ services:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: password
     networks:
-      - STACK_PLACEHOLDERsify-network
+      - STACK_PLACEHOLDER-network
     deploy:
       replicas: 1
     volumes:
