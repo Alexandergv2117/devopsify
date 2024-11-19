@@ -37,3 +37,5 @@ next-env.d.ts
 
 /.pnpm-store
 package-lock.json
+
+.env

@@ -1,5 +1,6 @@
 "use client";
 
+import { signOut, useSession } from "next-auth/react";
 import Link from "next/link";
 import {
   Navbar,
@@ -13,6 +14,7 @@ import {
 } from "@nextui-org/react";
 
 export default function App() {
+  const { data: session } = useSession();
   return (
     <Navbar maxWidth="full" className="bg-white bg-opacity-10 backdrop-blur-md rounded-b-md w-full">
       <NavbarBrand>
@@ -43,7 +45,7 @@ export default function App() {
           <DropdownMenu aria-label="Profile Actions" variant="flat">
             <DropdownItem key="profile" className="h-14 gap-2">
               <p className="font-semibold">Signed in as</p>
-              <p className="font-semibold">alexandergv2117@gmail.com</p>
+              <p className="font-semibold">{session?.user?.email}</p>
             </DropdownItem>
             <DropdownItem key="settings">My Settings</DropdownItem>
             <DropdownItem key="team_settings">Team Settings</DropdownItem>
@@ -51,7 +53,7 @@ export default function App() {
             <DropdownItem key="system">System</DropdownItem>
             <DropdownItem key="configurations">Configurations</DropdownItem>
             <DropdownItem key="help_and_feedback">Help & Feedback</DropdownItem>
-            <DropdownItem key="logout" color="danger">
+            <DropdownItem key="logout" color="danger" onClick={() => signOut()}>
               Log Out
             </DropdownItem>
           </DropdownMenu>

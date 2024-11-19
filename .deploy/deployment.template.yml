@@ -5,6 +5,9 @@ services:
     image: IMAGE_PLACEHOLDER
     environment:
       - PORT=3000
+      - DATABASE_URL=postgresql://postgres:password@STACK_PLACEHOLDER-db:5432/devopsify-db?schema=public
+      - NEXTAUTH_URL=https://HOST_PLACEHOLDER
+      - NEXTAUTH_SECRET=0ec4d956600492e5a0d138915644d100
     networks:
       - caddy
     deploy:
@@ -16,7 +19,23 @@ services:
         caddy.reverse_proxy: "{{upstreams 3000}}"
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
+  
+  STACK_PLACEHOLDER-db:
+    image: postgres:16.2
+    environment:
+      POSTGRES_DB: devopsify-db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+    networks:
+      - caddy
+    deploy:
+      replicas: 1
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
 
 networks:
   caddy:
     external: true
+
+volumes:
+  postgres-data:

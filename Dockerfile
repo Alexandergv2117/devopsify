@@ -15,6 +15,8 @@ WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 
+RUN npx prisma generate
+
 RUN corepack enable pnpm && pnpm build
 
 # Production image, copy all the files and run next
@@ -35,6 +37,8 @@ RUN mkdir .next
 COPY --from=builder /app/.next/standalone ./
 COPY --from=builder /app/.next/static ./.next/static
 
+COPY ./prisma /app/prisma
+
 # USER nextjs
 
 EXPOSE 3000
@@ -42,4 +46,4 @@ EXPOSE 3000
 ENV PORT=3000
 ENV HOSTNAME="0.0.0.0"
 
-CMD ["node", "server.js"]
+CMD ["sh", "-c", "npx prisma migrate deploy --schema ./prisma/schema.prisma && node ./prisma/seed.js && node server.js"]

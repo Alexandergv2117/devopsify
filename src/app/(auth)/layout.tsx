@@ -1,17 +1,16 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 
-import Navbar from "@/components/navbar";
-import { Providers } from "./providers";
-import "./globals.css";
+import "../globals.css";
+import { Providers } from "../providers";
 
 const geistSans = localFont({
-  src: "./fonts/GeistVF.woff",
+  src: "../fonts/GeistVF.woff",
   variable: "--font-geist-sans",
   weight: "100 900",
 });
 const geistMono = localFont({
-  src: "./fonts/GeistMonoVF.woff",
+  src: "../fonts/GeistMonoVF.woff",
   variable: "--font-geist-mono",
   weight: "100 900",
 });
@@ -32,8 +31,9 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased max-w-[1440px] mx-auto mb-8`}
       >
         <Providers>
-          <Navbar />
-          <main className="min-h-[calc(100vh-100px)] mt-1 px-1 flex flex-col items-center">{children}</main>
+          <main className="min-h-[calc(100vh-100px)] mt-1 px-1 flex flex-col items-center">
+            {children}
+          </main>
         </Providers>
       </body>
     </html>
